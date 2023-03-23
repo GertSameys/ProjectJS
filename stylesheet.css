@@ -1,0 +1,8 @@
+.dflex{
+    display: flex;
+    flex-direction: row;
+}
+
+.fgrow{
+    flex-grow: 1;
+}
