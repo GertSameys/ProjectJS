@@ -1,7 +1,18 @@
 let _errorArray = new Array();
 
 function validateForm() {
-    console.log("Validating form");
+    //declare the variables
+    let successbox = document.getElementById("successbox");
+    let errorbox = document.getElementById("errorbox");
+    let paymentbox = document.getElementById("paymentbox");
+
+    //clear boxes
+    successbox.innerHTML = "";
+    errorbox.innerHTML = "";
+
+    // reset the error array
+    _errorArray = new Array();
+
 
     //getting all the values from the form
     // VOORNAAM
@@ -25,8 +36,10 @@ function validateForm() {
     let zip = document.getElementById("zip").value;
     //algemene voorwaarden
     let terms = document.getElementById("terms").checked;
+    // BETALINGSWIJZE
+    let payment = document.querySelector('input[name="paymentMethod"]:checked').value;
 
-// check if the fields are valid
+    // check if the fields are valid
     checkEmptyField(firstName, "Vul uw voornaam in");
     checkEmptyField(lastName, "Vul uw naam in");
     checkEmptyField(username, "Vul uw gebruikersnaam in");
@@ -40,16 +53,23 @@ function validateForm() {
     checkPC(zip);
     checkTerms(terms);
 
-if (_errorArray.length > 0) {
-    // show the error message
-    let errorbox = document.getElementById("errorbox");
-    _errorArray.forEach(element => {
-        errorbox.innerHTML += element + "<br>";
-    });
-}
-else {
-    // submit the form
-}
+    if (_errorArray.length > 0) {
+        // show the error message
+        errorbox.innerHTML = "<h4>Yikes, errors</h4>";
+        _errorArray.forEach(element => {
+            errorbox.innerHTML += element + "<br>";
+        });
+        setValidationBoxes(false);
+    }
+    else {
+        // submit the form
+        successbox.innerHTML = "<h4>Goed gedaan</h4><p>Aww yeah, je werd geregistreerd.</p>";
+        paymentbox.innerHTML = "<h4>Betalingswijze</h4><p>Je betalingswijze is "+ payment + ".</p>";
+        setValidationBoxes(true);
+        //clear form
+        let form = document.getElementById("form");
+        form.reset();
+    }
 }
 
 function checkEmptyField(field, message) {
@@ -65,6 +85,22 @@ function checkEmail(email) {
         return true;
     } else {
         return false;
+    }
+}
+
+function setValidationBoxes(valid){
+    let successbox = document.getElementById("successbox");
+    let errorbox = document.getElementById("errorbox");
+    let paymentbox = document.getElementById("paymentbox");
+
+    if(valid){
+        errorbox.style.display = "none";
+        successbox.style.display = "block";
+        paymentbox.style.display = "block";
+    }else{
+        errorbox.style.display = "block";
+        successbox.style.display = "none";
+        paymentbox.style.display = "none";
     }
 }
 
